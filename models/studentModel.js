@@ -23,11 +23,10 @@ const Student = sequelize.define("Student", {
     allowNull: false,
   },
 });
-
 // Sync with database
 sequelize
   .sync()
-  .then(() => console.log("Student table created"))
+  .then(() => console.log("Homework and Student tables created"))
   .catch((err) => console.log("Error: " + err));
 
 module.exports = Student;
