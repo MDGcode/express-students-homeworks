@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Homework = require("../models/homeworkModel");
+const Student = require("../models/studentModel");
 
 // Create a new homework
 router.post("/", async (req, res) => {
@@ -66,6 +67,23 @@ router.delete("/:id", async (req, res) => {
 
     await homework.destroy();
     res.json({ message: "Homework deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all students assigned to a homework
+router.get("/:id/students", async (req, res) => {
+  try {
+    const homework = await Homework.findByPk(req.params.id, {
+      include: Student,
+    });
+
+    if (!homework) {
+      return res.status(404).json({ message: "Homework not found" });
+    }
+
+    res.json(homework.Students);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
